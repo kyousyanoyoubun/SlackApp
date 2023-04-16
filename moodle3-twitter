@@ -1,0 +1,24 @@
+ let List= new Array();
+
+     topics = Parser.data(content_block).from('<td>').to('</td>').iterate();
+
+    for(news of topics){
+
+      let newsRank = topics.indexOf(news) + 1;
+
+      let newsUrl = news.replace(/.*href="/,"").replace(/".*/,"");
+
+      let newsTitle = news.replace(/.*class="vsc-initialized">/,"").replace(/<.*>/,"");
+
+        let newsResponse = UrlFetchApp.fetch(newsUrl);
+        let newsText = newsResponse.getContentText("utf-8");
+
+        let newsCategory = Parser.data(newsText).from('トピックス（').to('）').build();
+
+      let newsInfo = [newsRank, newsUrl, newsTitle, newsCategory];
+
+      newsList.push(newsInfo);
+   }
+
+  //console.log(newsList);
+ }
